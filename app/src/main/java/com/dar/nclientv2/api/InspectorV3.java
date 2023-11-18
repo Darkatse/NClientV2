@@ -374,7 +374,8 @@ public class InspectorV3 extends Thread implements Parcelable {
         Elements scripts = document.getElementsByTag("script");
         if (scripts.isEmpty())
             throw new InvalidResponseException();
-        String json = trimScriptTag(scripts.last().html());
+        Element secondLastScript = scripts.get(scripts.size() - 2);
+        String json = trimScriptTag(secondLastScript.html());
         if (json == null)
             throw new InvalidResponseException();
         Element relContainer = document.getElementById("related-container");
