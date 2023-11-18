@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -149,6 +150,8 @@ public class MainActivity extends BaseActivity
     private Toolbar toolbar;
     private Setting setting = null;
 
+    private int navigationBarHeight;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,6 +165,17 @@ public class MainActivity extends BaseActivity
         initializeNavigationView();
         initializeRecyclerView();
         initializePageSwitcherActions();
+
+        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            navigationBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+
+        PageSwitcher pageSwitcher = findViewById(R.id.page_switcher);
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) pageSwitcher.getLayoutParams();
+        params.bottomMargin = navigationBarHeight;
+        pageSwitcher.setLayoutParams(params);
+
         loadStringLogin();
         refresher.setOnRefreshListener(() -> {
             inspector = inspector.cloneInspector(MainActivity.this, resetDataset);

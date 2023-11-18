@@ -1,9 +1,12 @@
 package com.dar.nclientv2.components.activities;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -54,6 +57,39 @@ public abstract class GeneralActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /***************** Edge-to-Edge Setting Begin **************************/
+        // Get the window of the activity
+        Window window = getWindow();
+
+        // Request for full screen layout
+
+        // SYSTEM_UI_FLAG_LAYOUT_STABLE
+        //*** Tells the system that the window wishes the content to
+        //*** be laid out at the most extreme scenario. See the docs for
+        //*** more information on the specifics
+        //SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        //*** Tells the system that the window wishes the content to
+        //*** be laid out as if the navigation bar was hidden
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+            window.setStatusBarColor(Color.TRANSPARENT);
+
+            // Get the height of the status bar
+            int statusBarHeight = 0;
+            int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+            }
+
+            // Add a padding to the top of the root view
+            View rootView = findViewById(android.R.id.content);
+            rootView.setPadding(0, statusBarHeight, 0, 0);
+        }
+        /***************** Edge-to-Edge Setting End **************************/
+
         Global.initActivity(this);
     }
 

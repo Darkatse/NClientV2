@@ -19,7 +19,6 @@
         android:layout_height="0dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/app_name"
-        android:fitsSystemWindows="true"
         android:padding="128dp"
         android:scaleType="fitCenter"
         android:tint="?android:attr/colorForeground"
